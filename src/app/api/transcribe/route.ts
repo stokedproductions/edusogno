@@ -1,16 +1,18 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import speech, { protos } from '@google-cloud/speech';
 import { diffWordsWithSpace } from 'diff';
 import { getFriendlyPhonetic, getPhoneticTranscription } from './helpers';
 
-// Initialize Google Cloud Speech client
+// Decode the base64 encoded service account key
 const base64Key = process.env.GOOGLE_APPLICATION_CREDENTIALS || '';
 const keyFile = Buffer.from(base64Key, 'base64').toString('utf8');
+
 const client = new speech.SpeechClient({
   credentials: JSON.parse(keyFile)
 });
 
-export async function POST(req: Request) {
+// main function
+export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
     const { audioData, expectedPhrase } = body;
@@ -19,29 +21,32 @@ export async function POST(req: Request) {
       return NextResponse.json({ message: 'No audio data provided.' }, { status: 400 });
     }
 
-    // Define supported sample rate
-    const sampleRateHertz = 48000; 
+    const sampleRateHertz = 48000; // Set this to a supported sample rate
 
     const request: protos.google.cloud.speech.v1.IRecognizeRequest = {
       audio: { content: audioData },
       config: {
-        encoding: protos.google.cloud.speech.v1.RecognitionConfig.AudioEncoding.LINEAR16, // Ensure correct encoding
-        sampleRateHertz: sampleRateHertz, // Use supported sample rate
+        encoding: protos.google.cloud.speech.v1.RecognitionConfig.AudioEncoding.WEBM_OPUS,
+        sampleRateHertz: sampleRateHertz,
         languageCode: 'en-US',
       },
     };
 
+    // Using the proper types for the response
     const [response] = await client.recognize(request);
 
+    // Ensure the result is typed correctly using Speech-to-Text response types
     const transcription = response.results
       ?.map((result: protos.google.cloud.speech.v1.ISpeechRecognitionResult) =>
         result.alternatives?.[0].transcript || ''
       )
       .join('\n') || '';
 
+    // Compare transcription with the expected phrase
     const prepedExpectedPhrase = expectedPhrase.toLowerCase().replace(/[^\w\s]/g, '');
     const diff = diffWordsWithSpace(prepedExpectedPhrase, transcription);
 
+    // Build feedback with highlighted differences
     const feedback = diff.map(part => {
       if (part.added) {
         return `<span style="color: red; text-decoration: line-through;">${part.value}</span>`;
@@ -52,6 +57,7 @@ export async function POST(req: Request) {
       }
     }).join(' ');
 
+    // Fetch user-friendly phonetic feedback for incorrect words
     const incorrectWords = diff.filter(part => part.removed).map(part => part.value.trim());
     const phoneticSuggestions: { word: string, suggestion: string, phonic: string }[] = [];
 
