@@ -115,7 +115,7 @@ export default function Home() {
     <div className='h-screen flex flex-col items-center justify-center'>
       <div className='bg-[#212121] p-10 w-full max-w-xl'>
         <h1 className='text-4xl font-bold text-white mb-5 text-center'>Practice your Pronunciation</h1>
-        <p className="mb-3 text-2xl">Try saying:</p>
+        <p className="mb-3 text-2xl text-white">Try saying:</p>
         <p className='bg-[#313131] text-center py-5 my-5 text-2xl text-white font-bold'><strong>{currentPhrase}</strong></p>
         <div className='flex justify-center mb-10 gap-10'>
         <button
@@ -148,18 +148,18 @@ export default function Home() {
 
         {transcription && (
           <div className='p-5'>
-            <h2>Transcription:</h2>
-            <p>{transcription}</p>
+            <h2 className='text-white'>Transcription:</h2>
+            <p className='text-white'>{transcription}</p>
           </div>
         )}
         {feedback && (
-          <div className='p-5'>
+          <div className='p-5 text-white'>
             <h2>Feedback:</h2>
             <p className={feedback} dangerouslySetInnerHTML={{ __html: feedback }}></p>
           </div>
         )}
         {phoneticSuggestions.length > 0 && (
-          <div className='p-5' id='phonetic-suggestions'>
+          <div className='p-5 text-white' id='phonetic-suggestions'>
             <h2>Phonetic Suggestions:</h2>
             <ul>
               {phoneticSuggestions.map((suggestion, index) => (
