@@ -1,4 +1,3 @@
-// pages/index.tsx
 "use client";
 import { useState, useRef } from 'react';
 import axios from 'axios';
