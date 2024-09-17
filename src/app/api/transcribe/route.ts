@@ -1,8 +1,9 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import speech, { protos } from '@google-cloud/speech';
 import { diffWordsWithSpace } from 'diff';
 import { getFriendlyPhonetic, getPhoneticTranscription } from './helpers';
 
+// Decode the base64 encoded service account key
 const base64Key = process.env.GOOGLE_APPLICATION_CREDENTIALS || '';
 const keyFile = Buffer.from(base64Key, 'base64').toString('utf8');
 
@@ -10,7 +11,7 @@ const client = new speech.SpeechClient({
   credentials: JSON.parse(keyFile)
 });
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
     const { audioData, expectedPhrase } = body;
