@@ -66,7 +66,7 @@ To set up this project locally, follow the steps below:
 First, clone this repository to your local machine:
 
 ```bash
-git clone https://github.com/your-username/pronunciation-app.git
+git clone https://github.com/stokedproductions//edusogno.git
 
 ```
 
@@ -94,6 +94,7 @@ Create a `.env.local` file in the root directory and add your API key:
 bash
 Copy code
 NEXT_PUBLIC_SPEECH_API_KEY=your-api-key-here
+GOOGLE_APPLICATION_CREDENTIALS=your-key-here
 
 ```
 
