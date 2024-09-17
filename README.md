@@ -75,8 +75,6 @@ git clone https://github.com/stokedproductions//edusogno.git
 Navigate to the project folder and install the required dependencies using npm or yarn:
 
 ```bash
-bash
-Copy code
 cd pronunciation-app
 npm install
 # or
@@ -91,8 +89,6 @@ This app uses a Speech-to-Text API for audio transcription. You will need to sig
 Create a `.env.local` file in the root directory and add your API key:
 
 ```bash
-bash
-Copy code
 NEXT_PUBLIC_SPEECH_API_KEY=your-api-key-here
 GOOGLE_APPLICATION_CREDENTIALS=your-key-here
 
@@ -103,8 +99,6 @@ GOOGLE_APPLICATION_CREDENTIALS=your-key-here
 Start the development server:
 
 ```bash
-bash
-Copy code
 npm run dev
 # or
 yarn dev
@@ -118,8 +112,6 @@ The app will be available at `http://localhost:3000`.
 To create an optimized production build:
 
 ```bash
-bash
-Copy code
 npm run build
 # or
 yarn build
@@ -129,8 +121,6 @@ yarn build
 You can then start the production server with:
 
 ```bash
-bash
-Copy code
 npm run start
 # or
 yarn start

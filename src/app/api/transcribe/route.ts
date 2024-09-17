@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import speech, { protos } from '@google-cloud/speech';
 import { diffWordsWithSpace } from 'diff';
 import { getFriendlyPhonetic, getPhoneticTranscription } from './helpers';
@@ -12,7 +12,7 @@ const client = new speech.SpeechClient({
 });
 
 // main function
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
     const { audioData, expectedPhrase } = body;
