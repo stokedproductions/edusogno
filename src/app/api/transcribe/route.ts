@@ -11,6 +11,7 @@ const client = new speech.SpeechClient({
   credentials: JSON.parse(keyFile)
 });
 
+// main function
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
